@@ -1,1 +1,0 @@
-instruction related to project configuration
