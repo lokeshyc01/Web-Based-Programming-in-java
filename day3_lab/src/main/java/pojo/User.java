@@ -24,6 +24,16 @@ public class User
 		this.status = status;
 		this.role = role;
 	}
+	public User(int id, String first_name, String last_name, String email, Date dob, boolean status, String role) 
+	{
+		this.id = id;
+		this.first_name=first_name;
+		this.last_name = last_name;
+		this.email = email;
+		this.dob = dob;
+		this.status = status;
+		this.role = role;
+	}
 	public int getId() {
 		return id;
 	}

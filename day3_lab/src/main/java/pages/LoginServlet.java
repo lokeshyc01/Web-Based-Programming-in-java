@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDaoImpl;
 import pojo.User;
@@ -38,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 	{
 		response.setContentType("text/html");
 		
-		response.sendRedirect("login.html");
+		response.sendRedirect("candidate_list");
 	}
 	
 
@@ -51,6 +52,11 @@ public class LoginServlet extends HttpServlet {
 		try (PrintWriter pw = response.getWriter()){
 			User validatedUser = user.authenticateUser(email, password);
 			
+			HttpSession hs = request.getSession();
+			System.out.println(hs.getId());
+			System.out.println(hs.isNew());
+			
+			hs.setAttribute("user_info", validatedUser);
 			if(validatedUser != null)
 			{
 				if(validatedUser.getRole().equals("admin"))
@@ -64,14 +70,14 @@ public class LoginServlet extends HttpServlet {
 					
 					if(validatedUser.isStatus())
 					{
-						response.sendRedirect("candidate_list");
+						pw.print("<h1>LOGOUT</h1>");
 					}
 					else
 					{
-						user.updateStatus(email);
+//						user.updateStatus(validatedUser.getId());
+						response.sendRedirect("candidate_list");
 					}
 //					not voted
-					
 				}
 			}
 			else

@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import pojo.User;
 
@@ -17,13 +19,16 @@ public class UserDaoImpl implements UserDao
 	private PreparedStatement pst1;
 	private PreparedStatement pst2;
 	private PreparedStatement pst3;
+	private PreparedStatement pst4;
+
 	public UserDaoImpl() throws SQLException
 	{
 		System.out.println("dao created");
 		connection = openConnection();
 		pst1 = connection.prepareStatement("select * from users where email = ? and password = ?");
-		pst2 = connection.prepareStatement("update users set status = ? where email = ?");
+		pst2 = connection.prepareStatement("update users set status = ? where id = ?");
 		pst3 = connection.prepareStatement("insert into users values (default,?,?,?,?,?,?,?)");
+		pst4 = connection.prepareStatement("select * from users");
 	}
 	
 	
@@ -44,10 +49,10 @@ public class UserDaoImpl implements UserDao
 		return null;
 	}
 	
-	public String updateStatus(String email) throws SQLException
+	public String updateStatus(int id) throws SQLException
 	{
 		pst2.setBoolean(1,true);
-		pst2.setString(2, email);
+		pst2.setInt(2, id);
 		
 		int row = pst2.executeUpdate();
 		
@@ -81,4 +86,20 @@ public class UserDaoImpl implements UserDao
 		}
 		
 	}
+	
+	public List<User> getAllUser() throws SQLException
+	{
+		List<User> userList = new ArrayList<>();
+		
+		ResultSet data = pst4.executeQuery();
+		
+		while(data.next())
+		{
+			userList.add(new User(data.getInt(1),data.getString(2),data.getString(3),data.getString(4),data.getDate(6),data.getBoolean(7),data.getString(8)));
+		}
+		
+		return userList;
+	}
+	
+	
 }
