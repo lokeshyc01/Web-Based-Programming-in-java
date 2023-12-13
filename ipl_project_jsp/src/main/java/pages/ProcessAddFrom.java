@@ -58,6 +58,7 @@ public class ProcessAddFrom extends HttpServlet {
 			
 			if(team.getMaxAge() > playerage && average > team.getMinBattingAvg() && wicketTaken > team.getMinWicketsTaken())
 			{
+				response.sendRedirect("/info");
 				String result = playerDao.addPlayerToTeam(new Player(playerName[0],playerName[1],Date.valueOf(age),average,wicketTaken,team.getTeamId()),team.getTeamId());
 				pw.print("<h1>"+result+"</h1>");
 			}
