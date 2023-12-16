@@ -3,6 +3,7 @@ package pojos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -31,12 +32,23 @@ public class Team extends BaseEntity{
 	
 //	team1 ====> *player
 //	Terms : one,parent table,inverse(since no FK here)
-	@OneToMany(mappedBy = "myTeam")
+	@OneToMany(mappedBy = "myTeam",cascade = CascadeType.ALL,orphanRemoval = true)
 	List<Player> players = new ArrayList<>();    //initialize the collection based property to empty collection --Gavin King
 	public Team() {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void addPlayer(Player player)
+	{
+		this.players.add(player);
+		player.setTeam(this);
+	}
+	
+	public void removePlayer(Player player)
+	{
+		this.players.remove(player);
+		player.setTeam(null);
+	}
 	
 	public Team(int teamId, String name, String abbreviation, String owner, int maxAge, double minBattingAvg,
 			int minWicketsTaken) {
@@ -49,7 +61,8 @@ public class Team extends BaseEntity{
 		this.minBattingAvg = minBattingAvg;
 		this.minWicketsTaken = minWicketsTaken;
 	}
-
+	
+	
 //
 //	public int getTeamId() {
 //		return teamId;
@@ -84,7 +97,12 @@ public class Team extends BaseEntity{
 	public double getMinBattingAvg() {
 		return minBattingAvg;
 	}
-	public void setMinBattingAvg(double minBattingAvg) {
+	public void setMinBattingAvg(Double minBattingAvg) {
+		if(minBattingAvg instanceof Double)
+		{
+			System.out.println("minBatting average setting called");			
+		}
+		System.out.println("not a double");
 		this.minBattingAvg = minBattingAvg;
 	}
 	public int getMinWicketsTaken() {

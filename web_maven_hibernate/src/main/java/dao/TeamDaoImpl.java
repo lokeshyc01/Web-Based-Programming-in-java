@@ -13,14 +13,16 @@ public class TeamDaoImpl implements TeamDao {
 	private Session session;
 	private Transaction tx;
 
-	public int getTeamDetails(String team) {
+	
+	public Team getTeamDetails(String team) {
 		session = getFactory().getCurrentSession();
 		tx = session.beginTransaction();
-		Integer validateTeam = null;
-		String jpql = "select t.id from Team t where t.abbreviation =:team";
+		Team validateTeam = null;
+//		select d from Department d where d.name=:name
+		String jpql = "select t from Team t where t.abbreviation=:team";
 		try {
 			System.out.println(team);
-			validateTeam = session.createQuery(jpql, Integer.class).setParameter("team",team).getSingleResult();
+			validateTeam = session.createQuery(jpql, Team.class).setParameter("team",team).getSingleResult();
 			System.out.println(validateTeam);
 			tx.commit();
 		} catch (RuntimeException e) {

@@ -28,16 +28,22 @@ public class Player extends BaseEntity{
 	@ManyToOne //mandatory
 	@JoinColumn(name="team_id")
 	private Team myTeam;
+	
 	public Player() {
 		
 	} 
-	public Player(String firstName, String lastName, LocalDate dob, double battingAvg, int wicketsTaken, int teamId) {
+	public Player(String firstName, String lastName, LocalDate dob, double battingAvg, int wicketsTaken) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
 		this.battingAvg = battingAvg;
 		this.wicketsTaken = wicketsTaken;	
+	}
+	
+	public void setTeam(Team team)
+	{
+		this.myTeam = team;
 	}
 	
 	public String getFirstName() {

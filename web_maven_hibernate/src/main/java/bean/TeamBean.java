@@ -9,14 +9,13 @@ import dao.TeamDaoImpl;
 import pojos.Player;
 import pojos.Team;
 
-public class TeamBean 
-{
+public class TeamBean {
 	private String team;
 	private String name;
 	private String dob;
 	private String average;
 	private String wickets;
-	
+
 	public String getTeam() {
 		return team;
 	}
@@ -72,51 +71,35 @@ public class TeamBean
 
 	private TeamDaoImpl teamDao;
 	private PlayerDaoImpl playerDao;
-	
-	public TeamBean()
-	{
+
+	public TeamBean() {
 		teamDao = new TeamDaoImpl();
 		playerDao = new PlayerDaoImpl();
 		System.out.println("Team bean n dao created!!!");
 	}
-	
+
 //	B.L method to send all abbrs to the JSP
-	
-	public List<String> getAbbreviations()
-	{
+
+	public List<String> getAbbreviations() {
 		return teamDao.getAbbreviation();
 	}
-	
-	public String addPlayer()
-	{
-//		String firstName, String lastName, LocalDate dob, double battingAvg, int wicketsTaken, int teamId
-		
-		System.out.println("here 1");
+
+	public String addPlayer() {
 		String msg = "success";
-		try
-		{
-			System.out.println(team);
-			int validateTeam = teamDao.getTeamDetails(team);
+		try {
+			Team validateTeam = teamDao.getTeamDetails(team);
 			System.out.println(validateTeam);
-			Player player = new Player(name.split(" ")[0],name.split(" ")[1],LocalDate.parse(dob),Double.parseDouble(average),Integer.parseInt(wickets),validateTeam);
-			System.out.print(player);
-			playerDao.addPlayer(player);
-		}
-		catch(RuntimeException e)
-		{
+			Player player = new Player(name.split(" ")[0], name.split(" ")[1], LocalDate.parse(dob),
+					Double.parseDouble(average), Integer.parseInt(wickets));
+			playerDao.addPlayer(player, validateTeam.getId());
+		} catch (RuntimeException e) {
 			msg = "failure";
 			e.printStackTrace();
 		}
 		return msg;
-		
+
 //		System.out.println("TeamBean [team=" + team + ", name=" + Arrays.toString(name) + ", dob=" + dob + ", average=" + average
 //				+ ", wickets=" + wickets + ", teamDao=" + teamDao + ", playerDao=" + playerDao + "]");
 	}
 
-	
-
-	
-	
-	
-	
 }
