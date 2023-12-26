@@ -31,7 +31,7 @@ public class CourseController
 	@PutMapping("/{id}/fees/{amount}")
 	public ResponseEntity<?> updateCourseFees(@PathVariable Long id,@PathVariable int amount)
 	{
-		return ResponseEntity.ok().body(courseService.updateCourse(id, amount));
+		return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(courseService.updateCourse(id, amount)));
 	}
 	
 	@DeleteMapping("/{courseid}/students/{studentid}")

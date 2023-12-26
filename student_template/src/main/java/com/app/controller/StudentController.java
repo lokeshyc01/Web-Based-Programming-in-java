@@ -15,6 +15,8 @@ import com.app.dto.StudentReqDTO;
 import com.app.service.CourseService;
 import com.app.service.StudentService;
 
+import io.swagger.v3.oas.models.responses.ApiResponse;
+
 @RestController
 @RequestMapping("/students")
 public class StudentController 
