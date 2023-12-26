@@ -1,7 +1,8 @@
 package com.app.dto;
 
 import java.time.LocalDateTime;
-
+@Getter
+@Setter
 public class ApiResponse {
 
 	private String msg;
